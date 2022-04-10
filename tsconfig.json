@@ -1,12 +1,25 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "baseUrl": "./src",
+    "paths": {
+      "@app": ["./app"],
+      "@components": ["./components"],
+      "@containers": ["./containers"],
+      "@store": ["./store"],
+      "@pages": ["./pages"],
+      "@layouts": ["./layouts"],
+      "@routes": ["./routes"],
+      "@utils": ["./utils"],
+      "@services": ["./services"],
+      "@types": ["./types"]
+    },
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
