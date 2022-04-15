@@ -2,6 +2,10 @@ import {FC} from "react";
 import {Form, Input, Button} from "@components";
 import {useAuthStore} from "@store";
 
+const initValues = {
+    email: process.env.REACT_APP_ADMIN_LOGIN || '',
+    password: process.env.REACT_APP_ADMIN_PASSWORD || ''
+}
 
 const LoginForm: FC = () => {
     const login = useAuthStore(state => state.login)
@@ -18,6 +22,7 @@ const LoginForm: FC = () => {
             onFinish={login}
             onFinishFailed={onFailed}
             autoComplete="off"
+            initialValues={initValues}
         >
             <Form.Item
                 label="Email"

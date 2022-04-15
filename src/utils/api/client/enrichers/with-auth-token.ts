@@ -7,7 +7,7 @@ export const withAuthToken: AuthEnricher = (authStorage: AuthStorage) => (reques
     }
 
     if (!requestConfig.headers.Authorization) {
-        requestConfig.headers.Authorization = `Bearer ${authStorage.getAuth}`;
+        requestConfig.headers.Authorization = `Bearer ${authStorage.getAuth()}`;
     }
 
     return requestConfig
