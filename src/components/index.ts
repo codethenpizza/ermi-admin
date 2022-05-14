@@ -8,6 +8,7 @@ export type {
     TableColumnType,
     TableColumnsType,
     TableColumnGroupType,
+    TablePaginationConfig,
     ModalProps,
     SelectProps
 } from 'antd'

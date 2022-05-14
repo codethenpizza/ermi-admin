@@ -1,21 +1,8 @@
-import {ermiClient} from '@utils'
 import {Order} from "types/orders";
+import {BaseService} from "../base-service";
 
-export const fetchAllOrders = async (): Promise<Order[]> => {
-    const resp = await ermiClient.request<Order[]>({
-        method: 'get',
-        url: '/order/list',
-    })
-    return resp.data
-}
-
-export const updateOrder = async (orderId: Order['id'], propertiesToUpdate: Partial<Order>): Promise<any>  => {
-    const resp = await ermiClient.request<Order[]>({
-        method: 'put',
-        url: `/order/${orderId}`,
-        data: {
-            ...propertiesToUpdate
-        }
-    })
-    return resp.data
+export class OrderService extends BaseService<Order> {
+    constructor() {
+        super({endpoint: 'order'});
+    }
 }

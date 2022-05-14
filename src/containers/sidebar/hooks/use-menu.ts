@@ -6,5 +6,9 @@ export const useMenu = (): SidebarMenuItem[] => [
     {
         name: 'orders',
         route: composeTo(AUTH_ROUTES.ORDERS)
+    },
+    {
+        name: 'users',
+        route: composeTo(AUTH_ROUTES.USERS)
     }
 ]

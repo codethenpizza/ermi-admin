@@ -1,4 +1,4 @@
-import {orderService} from "@services";
+import {OrderService} from "@services";
 import create from "zustand";
 import {devtools} from "zustand/middleware";
 import {Order} from "@types";
@@ -10,14 +10,16 @@ export type OrdersSliceState = {
     updateOrder: (orderId: Order['id'], order: Partial<Order>) => void
 }
 
+const orderService = new OrderService()
+
 const useOrdersStore = create<OrdersSliceState>(devtools((set) => ({
     orders: [],
     fetchOrders: async () => {
-        const res = await orderService.fetchAllOrders();
-        set(() => ({orders: res || []}))
+        const res = await orderService.fetchList({limit: 100, offset: 0});
+        set(() => ({orders: res.rows || []}))
     },
     updateOrder: async (orderId, order) => {
-        await orderService.updateOrder(orderId, order);
+        await orderService.updateItem(orderId, order);
         set((state) => {
             const oldOrder = state.orders.find(o => o.id === orderId)
             const newOrder = {

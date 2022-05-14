@@ -2,7 +2,7 @@ import {VFC} from "react";
 import {Routes, Route, Navigate} from "react-router-dom";
 import {composeTo} from "@utils";
 import {AUTH_ROUTES} from "@types";
-import {OrdersPage} from "@pages";
+import {OrdersPage, UsersPage} from "@pages";
 
 const AdminRoutes: VFC = () => (
     <Routes>
@@ -18,6 +18,10 @@ const AdminRoutes: VFC = () => (
             element={<OrdersPage/>}
             path={composeTo(AUTH_ROUTES.ORDERS)}
         />
+      <Route
+        element={<UsersPage/>}
+        path={composeTo(AUTH_ROUTES.USERS)}
+      />
     </Routes>
 )
 

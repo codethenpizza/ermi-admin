@@ -1,2 +1,3 @@
 export * as authService from './authentication';
-export * as orderService from './orders';
+export {OrderService} from './orders';
+export {UserService} from './users';

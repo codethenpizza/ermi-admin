@@ -4,7 +4,8 @@ export const GUEST_ROUTES = {
 
 export const  AUTH_ROUTES = {
     DASHBOARD: 'dashboard',
-    ORDERS: 'orders'
+    ORDERS: 'orders',
+    USERS: 'users'
 }
 
 

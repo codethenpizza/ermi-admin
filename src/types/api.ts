@@ -27,3 +27,19 @@ export type CreateClientOptions = {
     apiConfig: ApiConfig
     auth: AuthOptions
 }
+
+export type FetchListParams = {
+    limit?: number
+    offset?: number
+}
+
+export type ListParams = {
+    limit?: number
+    page?: number // offset = limit * page -1
+    total?: number
+}
+
+export type listResp<T> = {
+    rows: T[],
+    count: number
+}

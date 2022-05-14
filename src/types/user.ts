@@ -3,6 +3,8 @@ export interface User {
     name: string;
     email: string;
     phone: string;
+    b2b_discount_group_id: number | null;
+    is_admin: number | null
 }
 
 export interface RegisterData {
