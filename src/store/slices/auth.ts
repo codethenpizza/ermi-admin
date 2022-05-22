@@ -11,6 +11,7 @@ export type AuthSliceState = {
         refreshToken: string
     },
     login: (loginParams: LoginRequestParams) => void
+    setTokens: (authToken: string, refreshToken?: string) => void
 }
 
 const useAuthStore = create<AuthSliceState>(devtools((set) => ({
@@ -22,6 +23,9 @@ const useAuthStore = create<AuthSliceState>(devtools((set) => ({
     login: async ({email, password}) => {
         const res = await authService.login({email, password})
         set(() => ({user: res.user, tokens: {authToken: res.token, refreshToken: res.refreshToken}}));
+    },
+    setTokens: (authToken, refreshToken= '') => {
+        set(() => ({tokens: {authToken, refreshToken}}))
     }
 })))
 

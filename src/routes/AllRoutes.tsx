@@ -5,8 +5,12 @@ import {AuthRoutes} from "./AuthRoutes";
 import {composeRootTo} from 'utils/router-helpers'
 import {AuthLayout, MainLayout} from "@layouts";
 import {GUEST_ROUTES} from "@types";
+import {useAuthenticate} from "../hooks/useAuthenticate";
 
-const AllRoutes: VFC = () => (
+const AllRoutes: VFC = () => {
+  useAuthenticate()
+
+  return (
     <Routes>
         <Route
             element={<AuthLayout><AuthRoutes/></AuthLayout>}
@@ -17,7 +21,8 @@ const AllRoutes: VFC = () => (
             path='*'
         />
     </Routes>
-)
+  )
+}
 
 export {
     AllRoutes

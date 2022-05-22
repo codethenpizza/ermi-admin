@@ -6,7 +6,7 @@ import {AUTH_ROUTES} from "@types";
 import {composeRootTo} from "@utils";
 
 const AuthLayout: FC = ({children}) => {
-    const isAuthenticated = useAuthStore(state => !!state.user?.id)
+    const isAuthenticated = useAuthStore(state => state.tokens.authToken)
 
     if (isAuthenticated) {
         return (

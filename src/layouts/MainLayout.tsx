@@ -7,7 +7,7 @@ import {composeRootTo} from "@utils";
 import {GUEST_ROUTES} from "@types";
 
 const MainLayout: FC = ({children}) => {
-    const isAuthenticated = useAuthStore(state => !!state.user?.id)
+    const isAuthenticated = useAuthStore(state => state.tokens.authToken)
 
     if (!isAuthenticated) {
         return (
