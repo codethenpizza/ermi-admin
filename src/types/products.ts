@@ -1,34 +1,69 @@
 export type ProductVariant<T extends ProductAttr = {}> = {
     id: number;
+    uid: string;
     name: string;
     product_id: number;
-    variant_code: string;
     desc?: string;
     is_available: boolean;
     attrs: T;
-    images: Image[];
-    cat_ids: number[];
-    offer: Offer;
+    images: IImage[];
+    offers: Offer[];
     product: Product;
+    productVariantImgs: ProductVariantImage[];
 }
 
 export type Product = {
     id: number;
+    uid: string;
     name: string;
     desc: string;
     attr_set_id: number;
+    variants: ProductVariant[];
+    cats: ProductCategory[];
 }
 
-export type Offer = {
+export type ProductCategory = {
     id: number;
+    name: string;
+    slug: string;
+    desc?: string;
+    parent_id: number;
+    position: number;
+};
+
+export interface Offer {
+    id: number;
+    uid: string;
+    price: number;
+    discount_price: number;
+    product_variant_id: number;
+    vendor_id: number;
+    vendor_code: string;
     in_stock_qty: number;
     is_available: boolean;
-    vendor_code: string;
-    vendor_id: number;
-    price: number;
-    discount_price?: number;
-    images: Image[];
-    stock: ProductStock[];
+    stock: string;
+    priority: boolean;
+    created_at: Date;
+    updated_at: Date;
+    images: IImage[];
+    offerImages: OfferImage[];
+    vendor: Vendor;
+}
+
+export interface OfferImage {
+    image_id: number;
+    offer_id: number;
+    position: number;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export interface Vendor {
+    id: number;
+    name: string;
+    slug: string;
+    created_at: Date;
+    updated_at: Date;
 }
 
 export type ProductAttr = Record<string, ProductAttrValue<any>>
@@ -49,7 +84,7 @@ export type ProductStock = {
     count: number;
 }
 
-export type Image = {
+export type IImage = {
     id: number;
     original_uri: string;
     large_uri: string;
@@ -139,3 +174,50 @@ export type SearchByAxlesParams = {
 
 
 export type SortOption = string;
+
+export interface AttrSet {
+    id: number;
+    name: string;
+    slug: string;
+    desc?: string;
+    scheme?: Object;
+}
+
+
+export interface AttrValue {
+    id: number;
+    attr_id: number;
+    product_variant_id: number;
+    value: any;
+    attribute: Attribute;
+}
+
+export interface Attribute {
+    id: number;
+    name: string;
+    slug: string;
+    type_id: number;
+    aggregatable: boolean;
+    type: AttrType;
+}
+
+export interface AttrType {
+    id: number;
+    name: ATTR_TYPE;
+}
+
+export enum ATTR_TYPE {
+    STRING = 'string',
+    NUMBER = 'number',
+    DECIMAL = 'decimal',
+    JSON = 'json',
+    ARRAY = 'array',
+    BOOLEAN = 'boolean',
+}
+
+export interface ProductVariantImage {
+    image_id: number;
+    product_variant_id: number;
+    position: number;
+    image: IImage;
+}

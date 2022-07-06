@@ -1,1 +1,1 @@
-export * from './ermi'
+export * from './client/ermiClient'

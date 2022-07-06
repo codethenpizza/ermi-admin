@@ -14,12 +14,6 @@ export interface RegisterData {
     phone: string;
 }
 
-export interface LoginResp {
-    user: User;
-    token: string;
-    refreshToken: string;
-}
-
 export type LoginCredentials = {
     email: string;
     password: string;

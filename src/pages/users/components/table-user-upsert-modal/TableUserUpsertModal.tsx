@@ -29,6 +29,7 @@ const TableUserUpsertModal: FC<UserUpsertTableProps> = ({user, isVisible, handle
     }
 
     return (
+        // @ts-ignore
         <Modal visible={isVisible} footer={null}
                title={user?.name ? `Пользователь: ${user.name}` : 'Новый пользователь'}
                onOk={handleOk} onCancel={handleCancel}

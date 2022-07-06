@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import { AllRoutes } from "routes";
+import {Outlet} from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <AllRoutes/>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Outlet/>
+        </div>
+    );
 }
 
 export {

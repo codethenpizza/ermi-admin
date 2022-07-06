@@ -1,36 +1,48 @@
-import {AdminUser, LoginRequestParams} from "@types";
-import {authService} from "@services";
+import {AdminUser, AuthTokens, LoginRequestParams} from "@types";
+import {devtools, persist} from "zustand/middleware";
+import {authService} from "@services/auth";
 import create from "zustand";
-import {devtools} from "zustand/middleware";
-import {authStorage} from "@utils";
+import {AUTH_DATA_KEY} from "@utils";
 
 export type AuthSliceState = {
-    user: AdminUser | null
-    tokens: {
-        authToken: string
-        refreshToken: string
-    },
-    login: (loginParams: LoginRequestParams) => void
-    setTokens: (authToken: string, refreshToken?: string) => void
+    user: AdminUser | null,
+    tokens: AuthTokens,
+    login: (loginParams: LoginRequestParams) => Promise<void>,
+    logout: () => void,
+    setTokens: (authToken: string, refreshToken?: string) => void,
+    isAuth: () => boolean,
 }
 
-const useAuthStore = create<AuthSliceState>(devtools((set) => ({
-    user: null,
-    tokens: {
-        authToken: '',
-        refreshToken: '',
-    },
-    login: async ({email, password}) => {
-        const res = await authService.login({email, password})
-        set(() => ({user: res.user, tokens: {authToken: res.token, refreshToken: res.refreshToken}}));
-    },
-    setTokens: (authToken, refreshToken= '') => {
-        set(() => ({tokens: {authToken, refreshToken}}))
-    }
-})))
+export const useAuthStore = create<AuthSliceState>()(
+    persist(
+        devtools(
+            (
+                set,
+                get
+            ) => ({
+                user: null,
+                tokens: {
+                    token: '',
+                    refreshToken: '',
+                },
+                login: async ({email, password}) => {
+                    const {token, refreshToken, user} = await authService.login({email, password})
+                    set(() => ({user, tokens: {token, refreshToken}}));
+                },
+                logout: () => {
+                    set(() => ({user: null, tokens: {token: '', refreshToken: ''}}));
+                },
+                setTokens: (token, refreshToken = '') => {
+                    set(() => ({tokens: {token, refreshToken}}))
+                },
+                isAuth: () => {
+                    return Boolean(get().user);
+                },
+            })
+        ),
+        {
+            name: AUTH_DATA_KEY,
 
-useAuthStore.subscribe(authStorage.persist, state => state.tokens)
-
-export {
-    useAuthStore
-}
+        }
+    )
+);

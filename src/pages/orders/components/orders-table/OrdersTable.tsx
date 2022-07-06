@@ -3,8 +3,7 @@ import {Table} from "@components";
 import {Order} from "types/orders";
 import {useOrderTableColumns} from "./hooks/use-orders-table-columns";
 import {useTableOrderItem} from "./hooks/use-table-order-item";
-import {ContextMenu, ContextMenuItems} from "../../../../containers/context-menu";
-import {useContextMenu} from "../../../../containers/context-menu/hooks/use-context-menu";
+import {ContextMenu, ContextMenuItems, useContextMenu} from "@containers";
 import {TableOrderItem} from "./types";
 import {TableOrderEditModal} from "../table-order-edit-modal";
 

@@ -1,7 +1,8 @@
-import {AxiosRequestConfig} from "axios";
+import {Axios, AxiosInstance, AxiosRequestConfig} from "axios";
+import {FilterValue} from "antd/lib/table/interface";
 
-export type AuthenticationTokens = {
-    authToken: string
+export type AuthTokens = {
+    token: string
     refreshToken: string
 }
 
@@ -16,21 +17,30 @@ export enum AppEnv {
     LOCAL = 'local'
 }
 
-export type AuthEnricher = (storage: any) => (c: AxiosRequestConfig) => AxiosRequestConfig
+export type AuthEnricher = (state: any) => (c: AxiosRequestConfig) => AxiosRequestConfig
 
 export type AuthOptions = {
     enrichers: AuthEnricher[]
     exclude?: string[]
 }
 
+export type RequestInterceptorFn = (interceptors: Axios['interceptors'], client: AxiosInstance) => void;
+
 export type CreateClientOptions = {
-    apiConfig: ApiConfig
-    auth: AuthOptions
+    apiConfig: ApiConfig;
+    interceptors: RequestInterceptorFn[];
 }
 
-export type FetchListParams = {
-    limit?: number
-    offset?: number
+export enum SORT {
+    ASC = 'ASC',
+    DESC = 'DESC',
+}
+
+export type BaseFetchListParams = {
+    limit?: number;
+    offset?: number;
+    filters?: Record<string, FilterValue | null>;
+    sort?: [string, SORT];
 }
 
 export type ListParams = {
@@ -39,7 +49,7 @@ export type ListParams = {
     total?: number
 }
 
-export type listResp<T> = {
+export type ListResp<T> = {
     rows: T[],
     count: number
 }
