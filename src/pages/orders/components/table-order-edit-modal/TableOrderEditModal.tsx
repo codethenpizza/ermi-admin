@@ -21,6 +21,7 @@ const TableOrderEditModal: FC<OrderEditTableProps> = ({order, isVisible, handleC
     }
 
     return (
+        // @ts-ignore
         <Modal visible={isVisible} footer={null}
                title={`Заказ №${order.id}`}
                onOk={handleOk} onCancel={handleCancel}

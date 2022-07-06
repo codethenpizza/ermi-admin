@@ -3,16 +3,51 @@
     "target": "es5",
     "baseUrl": "./src",
     "paths": {
-      "@app": ["./app"],
-      "@components": ["./components"],
-      "@containers": ["./containers"],
-      "@store": ["./store"],
-      "@pages": ["./pages"],
-      "@layouts": ["./layouts"],
-      "@routes": ["./routes"],
-      "@utils": ["./utils"],
-      "@services": ["./services"],
-      "@types": ["./types"]
+      "@app": [
+        "./app"
+      ],
+      "@components": [
+        "./components"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@containers": [
+        "./containers"
+      ],
+      "@store": [
+        "./store"
+      ],
+      "@pages": [
+        "./pages"
+      ],
+      "@pages/*": [
+        "./pages/*"
+      ],
+      "@layouts/*": [
+        "./layouts/*"
+      ],
+      "@routes": [
+        "./routes"
+      ],
+      "@utils": [
+        "./utils"
+      ],
+      "@services": [
+        "./services"
+      ],
+      "@services/*": [
+        "./services/*"
+      ],
+      "@types": [
+        "./types"
+      ],
+      "@hooks": [
+        "./hooks"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ]
     },
     "lib": [
       "dom",

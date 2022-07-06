@@ -1,8 +1,9 @@
-import {UserService} from "@services";
 import create from "zustand";
 import {devtools} from "zustand/middleware";
 import {ListParams, LoadingState, SliceLoadingState, User} from "@types";
 import {unionBy} from 'lodash'
+import {immer} from "zustand/middleware/immer";
+import {userService} from "@services/users";
 
 export type UsersSliceState = {
   list: User[]
@@ -12,9 +13,7 @@ export type UsersSliceState = {
   deleteUser: (userId: User['id']) => Promise<void>
 } & ListParams & SliceLoadingState
 
-const userService = new UserService()
-
-const useUsersStore = create<UsersSliceState>(devtools((set, get) => ({
+export const useUsersStore = create<UsersSliceState>()(devtools(immer((set, get) => ({
   // move
   list: [],
   limit: userService.baseLimit,
@@ -68,8 +67,4 @@ const useUsersStore = create<UsersSliceState>(devtools((set, get) => ({
       console.error('deleteUser', e)
     }
   }
-})))
-
-export {
-  useUsersStore
-}
+}))))

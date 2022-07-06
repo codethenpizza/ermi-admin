@@ -1,8 +1,10 @@
 import {Order} from "types/orders";
-import {BaseService} from "../base-service";
+import {BaseCrudService} from "../base-crud";
 
-export class OrderService extends BaseService<Order> {
+class OrderService extends BaseCrudService<Order> {
     constructor() {
         super({endpoint: 'order'});
     }
 }
+
+export const orderService = new OrderService();

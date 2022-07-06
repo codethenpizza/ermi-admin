@@ -1,8 +1,10 @@
 import {User} from "@types";
-import {BaseService} from "../base-service";
+import {BaseCrudService} from "../base-crud";
 
-export class UserService extends BaseService<User> {
+class UserService extends BaseCrudService<User> {
   constructor() {
     super({endpoint: 'user'});
   }
 }
+
+export const userService = new UserService();

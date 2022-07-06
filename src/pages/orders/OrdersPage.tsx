@@ -7,7 +7,7 @@ const OrdersPage: FC = () => {
 
     useEffect(() => {
         fetchOrders()
-    }, [])
+    }, [fetchOrders])
 
     return (
         <OrdersTable orders={orders} />

@@ -1,3 +1,3 @@
-export * as authService from './authentication';
-export {OrderService} from './orders';
-export {UserService} from './users';
+export {orderService} from './orders';
+export {productService} from './product';
+export {BaseCrudService} from './base-crud';

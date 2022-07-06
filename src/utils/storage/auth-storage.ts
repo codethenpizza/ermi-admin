@@ -1,29 +1,44 @@
-import {AuthenticationTokens} from "@types";
+import {AuthSliceState} from "@store";
 
-const authKey = 'authToken'
-const refreshKey = 'refreshToken'
+export const AUTH_DATA_KEY = 'auth-data';
 
-export const authStorage: AuthStorage = {
-    clear: () => {
-        localStorage.removeItem(authKey)
-        localStorage.removeItem(refreshKey)
-    },
-    get: () => ({
-        authToken: localStorage.getItem(authKey) || '',
-        refreshToken: localStorage.getItem(refreshKey) || ''
-    }),
-    getAuth: () => localStorage.getItem(authKey) || '',
-    getRefresh: () => localStorage.getItem(refreshKey) || '',
-    persist: ({authToken, refreshToken}) => {
-        localStorage.setItem(authKey, authToken)
-        localStorage.setItem(refreshKey, refreshToken)
-    }
-}
+type AuthState = Pick<AuthSliceState, 'tokens' | 'user'>;
 
 export type AuthStorage = {
-    clear: () => void
-    get: () => AuthenticationTokens
-    getAuth: () => AuthenticationTokens['authToken']
-    getRefresh: () => AuthenticationTokens['refreshToken']
-    persist: (tokens: AuthenticationTokens) => void
+    get: () => AuthState | null;
+    set: (state: AuthState) => void;
+}
+
+export const authStorage: AuthStorage = {
+    get: () => {
+        const dataString = localStorage.getItem(AUTH_DATA_KEY);
+
+        if (!dataString) {
+            return null;
+        }
+
+        try {
+            const data: {state: AuthState} = JSON.parse(dataString);
+            return data.state;
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
+    },
+    set: (state) => {
+        let dataString = localStorage.getItem(AUTH_DATA_KEY);
+
+        if (!dataString) {
+            return null;
+        }
+
+        try {
+            const data: {state: AuthState} = JSON.parse(dataString);
+            data.state = state;
+            dataString = JSON.stringify(data);
+            localStorage.setItem(AUTH_DATA_KEY, dataString);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 }

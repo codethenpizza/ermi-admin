@@ -1,0 +1,16 @@
+.container {
+  display: inline-block;
+  position: relative;
+  border: 1px #f0f0f0 solid;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 3px #0000004d;
+}
+
+.removeIcon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: red;
+  z-index: 10;
+}
