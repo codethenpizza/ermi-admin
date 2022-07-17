@@ -1,4 +1,4 @@
-import {ProductStock} from "@types";
+import {Address, ProductStock} from "@types";
 
 export const formatAttrName = (name: string): string => {
     const arr = name.split('_');
@@ -13,3 +13,5 @@ export const parseStock = (stockStr: string): ProductStock[] => {
     }
     return [];
 }
+
+export const addressToString = ({region, city, street, house, comment}: Address) => `${region}, ${city}, ${street}, ${house}`;

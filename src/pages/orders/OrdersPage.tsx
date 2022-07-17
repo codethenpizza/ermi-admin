@@ -1,19 +1,8 @@
-import {FC, useEffect} from "react";
-import {OrdersTable} from "./components";
-import {useOrdersStore} from "@store";
+import {FC} from "react";
+import {OrderTable} from "@components";
 
-const OrdersPage: FC = () => {
-    const {orders, fetchOrders} = useOrdersStore(state => state)
-
-    useEffect(() => {
-        fetchOrders()
-    }, [fetchOrders])
-
+export const OrdersPage: FC = () => {
     return (
-        <OrdersTable orders={orders} />
+        <OrderTable />
     )
-}
-
-export {
-    OrdersPage
 }
