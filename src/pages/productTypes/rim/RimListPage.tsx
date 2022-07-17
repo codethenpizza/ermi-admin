@@ -1,5 +1,5 @@
+import { RimTable } from "@containers/productType/rim/RimTable";
 import {FC} from "react";
-import {RimTable} from "@components/productType/rim/RimTable";
 
 export const RimListPage: FC = () => {
     return (

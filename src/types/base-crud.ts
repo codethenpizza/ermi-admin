@@ -5,4 +5,4 @@ export type ColumnDataType<T = any> = ColumnType<T> & {
     dataIndex: keyof T | string[];
 }
 
-export type CustomTableParams<T> = UsePaginationState & TableProps<T>;
+export type CustomTableProps<T> = UsePaginationState<T> & TableProps<T>;

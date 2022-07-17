@@ -1,10 +1,10 @@
 import {Outlet, RouteObject} from "react-router-dom";
 import {composeTo} from "@utils";
 import {AUTH_ROUTES} from "@types";
-import {OrdersPage} from "@pages";
 import {productRoutes} from "./pagesRoutes/productRoutes";
 import {UserListPage} from "@pages/users/UserListPage";
 import {productTypeRoutes} from "./pagesRoutes/productTypeRoutes";
+import {orderRoutes} from "./pagesRoutes/orderRoutes";
 
 
 export const protectedRoutes: RouteObject[] = [
@@ -14,7 +14,8 @@ export const protectedRoutes: RouteObject[] = [
     },
     {
         path: composeTo(AUTH_ROUTES.ORDERS),
-        element: <OrdersPage/>,
+        element: <Outlet/>,
+        children: orderRoutes,
     },
     {
         path: composeTo(AUTH_ROUTES.PRODUCTS),

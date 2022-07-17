@@ -1,46 +1,45 @@
-import {cloneElement, FC, isValidElement, ReactNode} from "react";
+import {cloneElement, FC, isValidElement, ReactElement, ReactNode} from "react";
 import {FormItemProps} from "antd/lib/form/FormItem";
 import {Button, Col, Form, FormInstance, Input, Row, Space} from "antd";
 import {EditOutlined} from "@ant-design/icons";
 import clsx from "clsx";
 import {FormLayout} from "antd/es/form/Form";
 
-export interface EntityFormParams<T = any> {
-    fields: FormItemProps<T>[],
-    onSubmit?: (values: any) => void | Promise<void>,
-    onAfterSubmit?: (values: any) => void,
-    isEdit?: boolean,
+export interface EntityFormProps<T = any> {
+    fields: FormItemProps<T>[];
+    onSubmit?: () => void;
+    onAfterSubmit?: () => void;
+    onDelete?: () => void;
+    isEdit?: boolean;
     form: FormInstance,
-    onToggleMode?: () => void,
-    onCancelEdit?: () => void,
-    showEditIcon?: boolean;
+    onCancelEdit?: () => void;
+    onStartEdit?: () => void;
+    hideEditIcon?: boolean;
     className?: string;
     layout?: FormLayout;
+    customEditIcon?: ReactElement;
+    hideActionButtons?: boolean;
 }
 
 
-export const EntityForm: FC<EntityFormParams> = (params) => {
+export const EntityForm: FC<EntityFormProps> = (params) => {
 
     const {
         fields,
         form,
         isEdit,
-        showEditIcon = true,
+        hideEditIcon,
         onSubmit = () => {
         },
-        onAfterSubmit = () => {},
-        onToggleMode = () => {
+        onStartEdit = () => {
         },
         onCancelEdit = () => {
         },
         className,
         layout = 'horizontal',
+        customEditIcon,
+        hideActionButtons,
     } = params;
-
-    const handleSubmit = async (values: any) => {
-        await onSubmit(values);
-        await onAfterSubmit(values);
-    }
 
     const getFieldInput = (field: FormItemProps): ReactNode => {
         let child: ReactNode;
@@ -57,13 +56,17 @@ export const EntityForm: FC<EntityFormParams> = (params) => {
         return <Input disabled={!isEdit}/>;
     }
 
+    const editIcon = cloneElement(customEditIcon || <EditOutlined/>, {onClick: onStartEdit} );
+
     return (
         <div className={clsx(className)}>
-            {showEditIcon && !isEdit &&
+            {!hideEditIcon && !isEdit &&
             <Row gutter={24} justify="end">
-                <EditOutlined onClick={onToggleMode}/>
+                <Col>
+                    {editIcon}
+                </Col>
             </Row>}
-            <Form form={form} onFinish={handleSubmit} autoComplete="off" layout={layout}>
+            <Form form={form} onFinish={() => onSubmit()} autoComplete="off" layout={layout}>
                 <Row gutter={24}>
                     {fields.map((field) => (
                         <Col key={field.name!.toString()}>
@@ -76,7 +79,7 @@ export const EntityForm: FC<EntityFormParams> = (params) => {
                     ))}
                 </Row>
                 {
-                    isEdit &&
+                    !hideActionButtons && isEdit &&
                     <Space>
                         <Button type="primary" htmlType="submit">Сохранить</Button>
                         <Button onClick={onCancelEdit} type="default" htmlType="button">Отмена</Button>

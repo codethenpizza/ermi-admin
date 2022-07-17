@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Col, Modal, Row, Space} from "antd";
-import {UserTable} from "@components/user/UserTable";
-import {UserForm} from "@components/user/UserForm";
 import {UsePaginationRespControlParams} from "@hooks";
+import {UserTable} from "@containers/user/UserTable";
+import {UserForm} from "@containers/user/UserForm";
 
 export const UserListPage: React.FC = () => {
 
@@ -11,7 +11,7 @@ export const UserListPage: React.FC = () => {
             title: 'Создание пользователя',
             content: <UserForm
                 isEdit={true}
-                showEditIcon={false}
+                hideEditIcon={true}
                 onAfterSubmit={async () => {
                     await controls.updateList();
                     modal.destroy()
@@ -24,7 +24,7 @@ export const UserListPage: React.FC = () => {
         })
     }
 
-    let controls: UsePaginationRespControlParams;
+    let controls: UsePaginationRespControlParams<any>;
 
     return (
         <>

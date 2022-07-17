@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {Modal, Button, Form, Select, Row} from "@components";
 import {DefaultModalProps} from "types/modal";
-import {Order, OrderStatus} from "@types";
+import {Order, ORDER_STATUS} from "@types";
 import {useOrdersStore} from "@store";
 
 export type OrderEditTableProps = {
@@ -41,7 +41,7 @@ const TableOrderEditModal: FC<OrderEditTableProps> = ({order, isVisible, handleC
                     <Select
                         placeholder="Укажите статус заказа"
                     >
-                        {Object.keys(OrderStatus).map(o => <Select.Option key={o} value={o}>{o}</Select.Option>)}
+                        {Object.keys(ORDER_STATUS).map(o => <Select.Option key={o} value={o}>{o}</Select.Option>)}
                     </Select>
                 </Form.Item>
                 <Row justify='end'>
