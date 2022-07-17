@@ -1,34 +1,58 @@
-import {Address} from "./user";
-import {ProductVariant} from "./products";
+import {Address, User} from "./user";
+import {Offer, ProductVariant} from "./products";
 
-export enum OrderStatus {
-    New = 'new',
-    InProgress = 'inProgress',
-    Completed = 'completed',
-    Cancelled = 'cancelled',
+export enum ORDER_STATUS {
+    NEW = 'new',
+    IN_PROGRESS = 'in_progress',
+    COMPLETED = 'completed',
+    CANCELLED = 'cancelled',
 }
 
 
 export type Order = {
     id: number;
     uid: string;
-    user_id: number; // ??
+    user_id: number;
+    user: User;
     payment_strategy_id: number;
-    status: OrderStatus;
+    paymentStrategy: PaymentStrategy;
+    status: ORDER_STATUS;
     total: number;
-    created_at: string;
-    updated_at: string;
+    offers: OrderOffer[];
+    b2b_discount_id: number;
+    created_at: Date;
+    updated_at: Date;
     discounts: Discount[];
     shipping: Shipping[];
-    paymentStrategy: PaymentStrategy;
     invoices: Invoice[];
+}
+
+export interface OrderOffer {
+    id: number;
+    offer_id: number;
+    offer: Offer;
+    order_id: number;
+    price: number;
+    qty: number;
+    shipping_id: number;
+    created_at: Date;
+    updated_at: Date;
 }
 
 export interface Discount {
     id: number;
     order_id: number;
     discount_type_id: number;
+    discountType: DiscountType;
     value: number;
+}
+
+export interface DiscountType {
+    id: number;
+    name: string;
+    desc: string;
+    strategy: string;
+    enabled: boolean;
 }
 
 export interface Shipping {
@@ -36,10 +60,11 @@ export interface Shipping {
     shipping_type_id: number;
     order_id: number;
     cost: number;
-    shipping_address_id: number;
+    address_id: number;
     delivery_date_from: Date;
     delivery_date_to: Date;
     status: string; // TODO enum
+    comment: string;
     created_at: Date;
     updated_at: Date;
     shippingType: ShippingType;
@@ -53,6 +78,7 @@ export interface ShippingType {
     desc: string;
     strategy: string;
     enabled: boolean;
+    paymentStrategies?: PaymentStrategy[];
     created_at: Date;
     updated_at: Date;
 }

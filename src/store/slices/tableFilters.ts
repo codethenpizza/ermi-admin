@@ -3,8 +3,9 @@ import create from "zustand";
 import {devtools} from "zustand/middleware";
 import {attrSetService} from "@services/attr-set";
 import {immer} from "zustand/middleware/immer";
-import {getFilterKey, getRimFilterName, isRimFilter} from "@components/productType/rim/rimFiltersHelper";
 import {rimService} from "@services/ProductTypeService";
+import {shippingTypeService} from "@services/ShippingTypeService";
+import {getFilterKey, isRimFilter} from "@containers/productType/rim/rimFiltersHelper";
 
 export type TableFilterName = 'attr_set_id';
 
@@ -27,6 +28,14 @@ export const useTableFiltersStore = create<TableFiltersSliceState>()(devtools(im
                     set(state => {
                         state.filters[filterName] = x.rows.map(item => ({text: item.name, value: item.id}));
                     })
+                });
+                return [];
+
+            case 'shipping_type_id':
+                shippingTypeService.fetchList().then(x => {
+                    set(state => {
+                        state.filters[filterName] = x.rows.map(item => ({text: item.name, value: item.id}));
+                    });
                 });
                 return [];
             default:

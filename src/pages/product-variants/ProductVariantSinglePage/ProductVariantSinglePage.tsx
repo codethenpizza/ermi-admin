@@ -3,11 +3,11 @@ import {useParams} from "react-router-dom";
 import {ProductVariant} from "@types";
 import {productVariantService} from "@services/productVariant";
 import {Card, Skeleton} from "antd";
-import {ProductVariantForm} from "@components/productVariant/ProductVariantForm";
-import {AttrValueTable} from "@components/attrValue/AttrValueTable";
 import styles from './ProductVariantSinglePage.module.scss';
-import {ProductVariantImageFormCard} from "@components/productVariantImage/ProductVariantImageFormCard/ProductVariantImageFormCard";
-import {OfferList} from "@components/offer/OfferList";
+import {ProductVariantForm} from "@containers/productVariant/ProductVariantForm";
+import {ProductVariantImageFormCard} from "@containers/productVariantImage/ProductVariantImageFormCard/ProductVariantImageFormCard";
+import {AttrValueTable} from "@containers/attrValue/AttrValueTable";
+import {OfferTable} from "@containers/offer/OfferTable";
 
 export const ProductVariantSinglePage: FC = () => {
     const params = useParams();
@@ -37,7 +37,7 @@ export const ProductVariantSinglePage: FC = () => {
                 <AttrValueTable filters={{product_variant_id: [productVariant.id]}}/>
             </Card>
             <Card title="Оферы">
-                <OfferList filters={{product_variant_id: [productVariant.id]}} />
+                <OfferTable filters={{product_variant_id: [productVariant.id]}} />
             </Card>
         </div>
     )

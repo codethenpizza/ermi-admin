@@ -15,6 +15,9 @@
       "@containers": [
         "./containers"
       ],
+      "@containers/*": [
+        "./containers/*"
+      ],
       "@store": [
         "./store"
       ],

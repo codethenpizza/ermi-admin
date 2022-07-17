@@ -27,7 +27,11 @@ export type LoadUserResp = {
 
 export type Address = {
     id: number;
-    fields: string;
+    region: string;
+    city: string;
+    street: string;
+    house: string;
+    comment: string;
     created_at: Date;
     updated_at: Date;
 }
