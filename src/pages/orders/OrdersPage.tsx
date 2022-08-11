@@ -1,19 +1,26 @@
-import {FC, useEffect} from "react";
-import {OrdersTable} from "./components";
-import {useOrdersStore} from "@store";
+import {FC} from "react";
+import {OrderTable} from "@components";
+import {Button} from "antd";
+import {useNavigate} from "react-router-dom";
+import {composeRootTo} from "@utils";
+import {AUTH_ROUTES} from "@types";
 
-const OrdersPage: FC = () => {
-    const {orders, fetchOrders} = useOrdersStore(state => state)
+export const OrdersPage: FC = () => {
 
-    useEffect(() => {
-        fetchOrders()
-    }, [fetchOrders])
+    const navigate = useNavigate();
+
+    const handleCreateButtonClick = () => {
+        navigate(composeRootTo(AUTH_ROUTES.ORDERS, 'create'))
+    }
+
 
     return (
-        <OrdersTable orders={orders} />
+        <OrderTable
+            extraActions={
+                <Button onClick={handleCreateButtonClick}>
+                    Создать
+                </Button>
+            }
+        />
     )
-}
-
-export {
-    OrdersPage
 }

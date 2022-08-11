@@ -37,6 +37,7 @@ export interface Offer {
     price: number;
     discount_price: number;
     product_variant_id: number;
+    productVariant: ProductVariant;
     vendor_id: number;
     vendor_code: string;
     in_stock_qty: number;

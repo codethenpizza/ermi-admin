@@ -5,31 +5,35 @@ import {FilterValue, SorterResult, TablePaginationConfig} from "antd/lib/table/i
 import {useEffect, useState} from "react";
 import {GetStateFn} from "../types/common";
 
-export interface UsePaginationState {
-    list?: any[];
+export const DEFAULT_ROW_KEY = 'id';
+
+export interface UsePaginationState<T> {
+    list?: T[];
     loading?: boolean;
     pagination?: TablePaginationConfig;
     filters?: Record<string, FilterValue | null> | null;
-    sort?: [string, SORT] | null,
+    sort?: [string, SORT] | null;
 }
 
-export interface UsePaginationRespControlParams {
-    getState: GetStateFn<Required<UsePaginationState>>;
+export interface UsePaginationRespControlParams<T> {
+    getState: GetStateFn<Required<UsePaginationState<T>>>;
     updateList: () => Promise<void>;
 }
 
 export interface UsePaginationResp<T> {
     paginationProps: TableProps<T>;
-    controlParams: UsePaginationRespControlParams;
+    controlParams: UsePaginationRespControlParams<T>;
 }
 
-export interface UsePaginationParams extends UsePaginationState {
+export interface UsePaginationParams<T> extends UsePaginationState<T>, Pick<TableProps<T>, 'rowKey'> {
     crudService: BaseCrudService;
 }
 
-export const useTablePagination = <T>(params: UsePaginationParams): UsePaginationResp<T> => {
+export const useTablePagination = <T>(params: UsePaginationParams<T>): UsePaginationResp<T> => {
 
-    const makePaginationParams = (params: UsePaginationParams): Required<UsePaginationState> => {
+    const isLocalPagination = Boolean(params.list);
+
+    const makePaginationParams = (params: UsePaginationParams<T>): Required<UsePaginationState<T>> => {
         const list = params.list || [];
         const {
             current = 1,
@@ -50,7 +54,7 @@ export const useTablePagination = <T>(params: UsePaginationParams): UsePaginatio
         }
     };
 
-    const [state, setState] = useState<Required<UsePaginationState>>(makePaginationParams(params));
+    const [state, setState] = useState<Required<UsePaginationState<T>>>(makePaginationParams(params));
 
     const getOffset = () => {
         const {current, pageSize} = state.pagination;
@@ -104,7 +108,7 @@ export const useTablePagination = <T>(params: UsePaginationParams): UsePaginatio
             filters = {};
         }
 
-        let sort: Required<UsePaginationState>['sort'] = null;
+        let sort: Required<UsePaginationState<T>>['sort'] = null;
         const s = (sorter as SorterResult<any>);
         if (s.order) {
             sort = [s.field as string, s.order === 'ascend' ? SORT.ASC : SORT.DESC];
@@ -118,7 +122,7 @@ export const useTablePagination = <T>(params: UsePaginationParams): UsePaginatio
         }));
     }
 
-    const getFilterValuesHash = (filters: UsePaginationState['filters']) => {
+    const getFilterValuesHash = (filters: UsePaginationState<T>['filters']) => {
         if (!filters) {
             return 0;
         }
@@ -133,17 +137,35 @@ export const useTablePagination = <T>(params: UsePaginationParams): UsePaginatio
             }, []).join(',');
     }
 
+    const getDataSource = () => {
+        if (isLocalPagination) {
+            const offset = getOffset();
+            return state.list.slice(offset, offset + state.pagination.pageSize!);
+        }
+
+        return state.list;
+    }
+
+
     useEffect(() => {
-        if (!params.list) {
-            updateList();
+        if (!isLocalPagination) {
+            updateList().then();
         }
     }, [
         state.pagination.current,
         state.pagination.pageSize,
         getFilterValuesHash(state.filters),
         state.sort?.join(),
-        params.list
+        params.list,
+        isLocalPagination,
     ]);
+
+    useEffect(() => {
+        if (isLocalPagination) {
+            setState((state) => ({...state, list: params.list!}))
+        }
+    }, [params.list])
+
 
     return {
         controlParams: {
@@ -152,10 +174,10 @@ export const useTablePagination = <T>(params: UsePaginationParams): UsePaginatio
         },
         paginationProps: {
             ...params,
-            dataSource: state.list,
+            dataSource: getDataSource(),
             loading: state.loading,
             pagination: (state.pagination.total || 0) <= (state.pagination.pageSize || 0) ? false : state.pagination,
-            rowKey: 'id',
+            rowKey: params.rowKey || DEFAULT_ROW_KEY,
             onChange: handleTableChange,
         },
     }
