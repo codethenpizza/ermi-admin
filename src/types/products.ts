@@ -96,6 +96,13 @@ export type IImage = {
     mimetype: string;
     size: number;
     position: number;
+    ProductVariantImg?: IProductVariantImg;
+}
+
+export type IProductVariantImg = {
+    image_id: number;
+    position: number;
+    product_variant_id: number;
 }
 
 export type ProductSearchBody = {
@@ -221,4 +228,7 @@ export interface ProductVariantImage {
     product_variant_id: number;
     position: number;
     image: IImage;
+}
+
+export interface ProductVariantImageBulk extends Omit<ProductVariantImage, 'product_variant_id'> {
 }

@@ -1,5 +1,9 @@
-import {FC} from "react";
-import {AUTH_ROUTES, ColumnDataType, CustomTableProps} from "@types";
+import {FC, useState} from "react";
+import {
+    AUTH_ROUTES,
+    ColumnDataType,
+    CustomTableProps,
+} from "@types";
 import {useTablePagination} from "@hooks";
 import {Table} from "@components";
 import {rimService} from "@services/ProductTypeService";
@@ -9,7 +13,9 @@ import {useTableFiltersStore} from "../../../store/slices/tableFilters";
 import {composeRootTo} from "@utils";
 import {useNavigate} from "react-router-dom";
 import {getRimFilterName} from "./rimFiltersHelper";
-import {Card} from "antd";
+import {Button, Card, Image, Modal, Space} from "antd";
+import styles from "./RimTable.module.css";
+import {ProductVariantBulkImageCard} from "@containers/productVariantImage/ProductVariantBulkImageCard/ProductVariantBulkImageCard";
 
 export interface RimTableProps extends CustomTableProps<Rim> {
 }
@@ -22,6 +28,8 @@ export const RimTable: FC<RimTableProps> = (props) => {
         navigate(composeRootTo(AUTH_ROUTES.PRODUCTS, item.product_id.toString(), 'variant', item.id.toString()));
     }
 
+    const [selectedIds, setSelected] = useState<number[]>([]);
+
     const {getFilter} = useTableFiltersStore();
 
     const columns: ColumnDataType<Rim>[] = [
@@ -29,22 +37,20 @@ export const RimTable: FC<RimTableProps> = (props) => {
             title: '#',
             dataIndex: 'id',
             sorter: true,
-            width: 70,
         },
         {
             title: 'product_id',
             dataIndex: 'product_id',
-            width: 100,
         },
-        // {
-        //     title: 'Изображение',
-        //     dataIndex: 'productVariant',
-        //     render: (productVariant) => <Image
-        //         width={200}
-        //         src={productVariant?.images?.[0]?.original_uri}
-        //         preview={false}
-        //     />
-        // },
+        {
+            title: 'Изображение',
+            dataIndex: 'productVariant',
+            render: (productVariant: Rim['productVariant']) => <Image
+                width={200}
+                src={productVariant?.images?.find((x) => x?.ProductVariantImg?.position === 0)?.original_uri}
+                preview={false}
+            />
+        },
         {
             title: 'brand',
             dataIndex: 'brand',
@@ -110,18 +116,45 @@ export const RimTable: FC<RimTableProps> = (props) => {
         },
     ];
 
-    const {paginationProps} = useTablePagination<Rim>({crudService: rimService, ...props});
+    const {paginationProps, controlParams} = useTablePagination<Rim>({crudService: rimService, ...props});
 
-    return <Card title="Список дисков">
-        <Table
-            sticky={true}
-            size={"small"}
-            onRow={(item) => ({
-                onClick: () => handleRowClick(item),
-                ...(props?.onRow?.(item) || {}),
-            })}
-            {...paginationProps}
-            columns={columns}
-        />
+    const openImageChooserModal = () => {
+        const handleImagesSave = () => {
+            controlParams.updateList().then(() => {
+                modal.destroy();
+            });
+        }
+
+        const modal = Modal.info({
+            title: 'Изменение изображений',
+            content: <ProductVariantBulkImageCard productVariantIds={selectedIds} onSave={handleImagesSave} />,
+            width: '80%',
+            icon: null,
+            maskClosable: true,
+            okButtonProps: {hidden: true}
+        });
+    }
+
+    const actions = <Space>
+        <Button onClick={openImageChooserModal}>Назначить изображения</Button>
+    </Space>
+
+    return <Card title="Список дисков" extra={actions}>
+        <div className={styles.tableWrapper}>
+            <Table
+                rowSelection={{
+                    type: 'checkbox',
+                    onChange: (selectedRowKeys) => setSelected(selectedRowKeys as number[]),
+                }}
+                tableLayout={'auto'}
+                size={"small"}
+                onRow={(item) => ({
+                    onClick: () => handleRowClick(item),
+                    ...(props?.onRow?.(item) || {}),
+                })}
+                {...paginationProps}
+                columns={columns}
+            />
+        </div>
     </Card>
 }

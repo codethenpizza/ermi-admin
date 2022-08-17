@@ -6,9 +6,10 @@ import {CSS} from '@dnd-kit/utilities';
 import {useSortable} from "@dnd-kit/sortable";
 import styles from './ProductVariantImageDraggableListItem.module.scss';
 import {CloseCircleOutlined} from "@ant-design/icons";
+import {DraggableProductVariantImage} from "@containers/productVariantImage/ProductVariantImageDraggableList/ProductVariantImageDraggableList";
 
 export interface ProductVariantImageDraggableListItemProps {
-    item: ProductVariantImage & { id: UniqueIdentifier };
+    item: DraggableProductVariantImage;
     isEdit?: boolean;
     onRemove?: (id: UniqueIdentifier) => void;
 }
