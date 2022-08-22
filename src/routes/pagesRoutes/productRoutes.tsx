@@ -1,7 +1,7 @@
 import {RouteObject} from "react-router-dom";
 import {ProductListPage} from "@pages/products/ProductListPage";
 import {ProductSinglePage} from "@pages/products/ProductSinglePage";
-import {ProductVariantSinglePage} from "@pages/product-variants/ProductVariantSinglePage";
+import {ProductVariantSinglePage} from "@pages/productVariants/ProductVariantSinglePage";
 
 export const productRoutes: RouteObject[] = [
     {

@@ -18,3 +18,20 @@ export interface Rim {
     type: string;
     productVariant: ProductVariant;
 }
+
+export interface Tire {
+    id: number;
+    product_id: number;
+    brand: string;
+    model: string;
+    name: string;
+    width: number;
+    profile: number;
+    diameter: string;
+    season: string;
+    speed: string;
+    load: number;
+    runflat: string;
+    pin: string;
+    productVariant: ProductVariant;
+}
