@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useState} from "react";
-import {ProductVariantImage} from "@types";
+import {ProductVariantImage, ProductVariantImageBulk} from "@types";
 import {
     closestCenter,
     DndContext,
@@ -19,11 +19,11 @@ import {ProductVariantImageDraggableListItem} from "./ProductVariantImageDraggab
 
 export interface ProductVariantImageListProps {
     items: DraggableProductVariantImage[];
-    setItems: Dispatch<SetStateAction<DraggableProductVariantImage[]>>;
+    setItems: Dispatch<SetStateAction<DraggableProductVariantImage<any>[]>>;
     isEdit?: boolean;
 }
 
-export type DraggableProductVariantImage = (ProductVariantImage & { id: UniqueIdentifier });
+export type DraggableProductVariantImage<T = ProductVariantImage | ProductVariantImageBulk> = T & { id: UniqueIdentifier };
 
 export const ProductVariantImageDraggableList: React.FC<ProductVariantImageListProps> = (props) => {
 

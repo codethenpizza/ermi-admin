@@ -31,6 +31,12 @@ export const useMenu = (): ItemType[] => {
                     onClick: () => navigate(composeTo(AUTH_ROUTES.PRODUCT_TYPES, PRODUCT_TYPE_ROUTES.RIMS)),
                     icon: <BarsOutlined />,
                 },
+                {
+                    key: 'Шины',
+                    label: 'Шины',
+                    onClick: () => navigate(composeTo(AUTH_ROUTES.PRODUCT_TYPES, PRODUCT_TYPE_ROUTES.TIRES)),
+                    icon: <BarsOutlined />,
+                },
             ]
         },
         {

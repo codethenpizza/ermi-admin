@@ -32,3 +32,5 @@ export class ProductTypeService extends BaseCrudService {
 }
 
 export const rimService = new ProductTypeService('rim');
+
+export const tireService = new ProductTypeService('tire');

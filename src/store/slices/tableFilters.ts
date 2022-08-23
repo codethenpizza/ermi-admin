@@ -3,9 +3,10 @@ import create from "zustand";
 import {devtools} from "zustand/middleware";
 import {attrSetService} from "@services/attr-set";
 import {immer} from "zustand/middleware/immer";
-import {rimService} from "@services/ProductTypeService";
+import {rimService, tireService} from "@services/ProductTypeService";
 import {shippingTypeService} from "@services/ShippingTypeService";
-import {getFilterKey, isRimFilter} from "@containers/productType/rim/rimFiltersHelper";
+import {getRimFilterKey, isRimFilter} from "@containers/productType/rim/rimFiltersHelper";
+import {getTireFilterKey, isTireFilter} from "@containers/productType/tire/tireFiltersHelper";
 
 export type TableFilterName = 'attr_set_id';
 
@@ -43,7 +44,16 @@ export const useTableFiltersStore = create<TableFiltersSliceState>()(devtools(im
 
         if (isRimFilter(filterName)) {
             rimService.getFilters().then((filters) => {
-                const filterKey = getFilterKey(filterName);
+                const filterKey = getRimFilterKey(filterName);
+                set(state => {
+                    state.filters[filterName] = (filters[filterKey] || []).map((filter) => ({text: filter, value: filter}));
+                })
+            })
+        }
+
+        if (isTireFilter(filterName)) {
+            tireService.getFilters().then((filters) => {
+                const filterKey = getTireFilterKey(filterName);
                 set(state => {
                     state.filters[filterName] = (filters[filterKey] || []).map((filter) => ({text: filter, value: filter}));
                 })

@@ -6,25 +6,25 @@ import {
 } from "@types";
 import {useTablePagination} from "@hooks";
 import {Table} from "@components";
-import {rimService} from "@services/ProductTypeService";
+import {tireService} from "@services/ProductTypeService";
 import {CheckCircleOutlined, CloseCircleOutlined} from "@ant-design/icons";
-import {Rim} from "../../../types/productTypes";
+import {Tire} from "../../../types/productTypes";
 import {useTableFiltersStore} from "../../../store/slices/tableFilters";
 import {composeRootTo} from "@utils";
 import {useNavigate} from "react-router-dom";
-import {getRimFilterName} from "./rimFiltersHelper";
+import {getTireFilterName} from "./tireFiltersHelper";
 import {Button, Card, Image, Modal, Space} from "antd";
-import styles from "./RimTable.module.css";
+import styles from "./TireTable.module.css";
 import {ProductVariantBulkImageCard} from "@containers/productVariantImage/ProductVariantBulkImageCard/ProductVariantBulkImageCard";
 
-export interface RimTableProps extends CustomTableProps<Rim> {
+export interface TireTableProps extends CustomTableProps<Tire> {
 }
 
-export const RimTable: FC<RimTableProps> = (props) => {
+export const TireTable: FC<TireTableProps> = (props) => {
 
     const navigate = useNavigate();
 
-    const handleRowClick = (item: Rim) => {
+    const handleRowClick = (item: Tire) => {
         navigate(composeRootTo(AUTH_ROUTES.PRODUCTS, item.product_id.toString(), 'variant', item.id.toString()));
     }
 
@@ -32,7 +32,7 @@ export const RimTable: FC<RimTableProps> = (props) => {
 
     const {getFilter} = useTableFiltersStore();
 
-    const columns: ColumnDataType<Rim>[] = [
+    const columns: ColumnDataType<Tire>[] = [
         {
             title: '#',
             dataIndex: 'id',
@@ -45,7 +45,7 @@ export const RimTable: FC<RimTableProps> = (props) => {
         {
             title: 'Изображение',
             dataIndex: 'productVariant',
-            render: (productVariant: Rim['productVariant']) => <Image
+            render: (productVariant: Tire['productVariant']) => <Image
                 width={200}
                 src={productVariant?.images?.find((x) => x?.ProductVariantImg?.position === 0)?.original_uri}
                 preview={false}
@@ -54,7 +54,7 @@ export const RimTable: FC<RimTableProps> = (props) => {
         {
             title: 'brand',
             dataIndex: 'brand',
-            filters: getFilter(getRimFilterName('brand')),
+            filters: getFilter(getTireFilterName('brand')),
         },
         {
             title: 'model',
@@ -65,58 +65,48 @@ export const RimTable: FC<RimTableProps> = (props) => {
             dataIndex: 'name',
         },
         {
-            title: 'color',
-            dataIndex: 'color',
-            filters: getFilter(getRimFilterName('color')),
-        },
-        {
-            title: 'dia',
-            dataIndex: 'dia',
-            filters: getFilter(getRimFilterName('dia')),
-        },
-        {
-            title: 'et',
-            dataIndex: 'et',
-            filters: getFilter(getRimFilterName('et')),
-        },
-        {
-            title: 'beadlock',
-            dataIndex: 'beadlock',
-            render: (beadlock: boolean) => beadlock ? <CheckCircleOutlined/> : <CloseCircleOutlined/>,
-        },
-        {
             title: 'width',
             dataIndex: 'width',
-            filters: getFilter(getRimFilterName('width')),
+            filters: getFilter(getTireFilterName('width')),
+        },
+        {
+            title: 'profile',
+            dataIndex: 'profile',
+            filters: getFilter(getTireFilterName('profile')),
         },
         {
             title: 'diameter',
             dataIndex: 'diameter',
-            filters: getFilter(getRimFilterName('diameter')),
+            filters: getFilter(getTireFilterName('diameter')),
         },
         {
-            title: 'bolts_count',
-            dataIndex: 'bolts_count',
-            filters: getFilter(getRimFilterName('bolts_count')),
+            title: 'season',
+            dataIndex: 'season',
+            filters: getFilter(getTireFilterName('season')),
         },
         {
-            title: 'bolts_spacing',
-            dataIndex: 'bolts_spacing',
-            filters: getFilter(getRimFilterName('bolts_spacing')),
+            title: 'speed',
+            dataIndex: 'speed',
+            filters: getFilter(getTireFilterName('speed')),
         },
         {
-            title: 'pcd',
-            dataIndex: 'pcd',
-            filters: getFilter(getRimFilterName('pcd')),
+            title: 'load',
+            dataIndex: 'load',
+            filters: getFilter(getTireFilterName('load')),
         },
         {
-            title: 'type',
-            dataIndex: 'type',
-            filters: getFilter(getRimFilterName('type')),
+            title: 'runflat',
+            dataIndex: 'runflat',
+            render: (runflat: string) => parseInt(runflat) ? <CheckCircleOutlined/> : <CloseCircleOutlined/>,
+        },
+        {
+            title: 'pin',
+            dataIndex: 'pin',
+            render: (pin: string) => parseInt(pin) ? <CheckCircleOutlined/> : <CloseCircleOutlined/>,
         },
     ];
 
-    const {paginationProps, controlParams} = useTablePagination<Rim>({crudService: rimService, ...props});
+    const {paginationProps, controlParams} = useTablePagination<Tire>({crudService: tireService, ...props});
 
     const openImageChooserModal = () => {
         const handleImagesSave = () => {
@@ -139,7 +129,7 @@ export const RimTable: FC<RimTableProps> = (props) => {
         <Button onClick={openImageChooserModal}>Назначить изображения</Button>
     </Space>
 
-    return <Card title="Список дисков" extra={actions}>
+    return <Card title="Список шин" extra={actions}>
         <div className={styles.tableWrapper}>
             <Table
                 rowSelection={{

@@ -12,4 +12,5 @@ export const AUTH_ROUTES = {
 
 export const PRODUCT_TYPE_ROUTES = {
     RIMS: 'rims',
+    TIRES: 'tires',
 }

@@ -1,5 +1,5 @@
 import {BaseCrudService} from "@services";
-import {ProductVariant, ProductVariantImage} from "@types";
+import {ProductVariant, ProductVariantImage, ProductVariantImageBulk} from "@types";
 
 class ProductVariantService extends BaseCrudService<ProductVariant> {
     constructor() {
@@ -8,6 +8,13 @@ class ProductVariantService extends BaseCrudService<ProductVariant> {
 
     async updateImages(productVariantId: number, pairs: ProductVariantImage[]): Promise<void> {
         await this.client.put(`${this.endpoint}/${productVariantId}/images`, pairs);
+    }
+
+    async updateImagesBulk(productVariantIds: number[], pairs: ProductVariantImageBulk[]): Promise<void> {
+        await this.client.put(`${this.endpoint}/images`, {
+            productVariantIds,
+            pairs,
+        });
     }
 }
 
