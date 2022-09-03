@@ -5,6 +5,7 @@ import {productRoutes} from "./pagesRoutes/productRoutes";
 import {UserListPage} from "@pages/users/UserListPage";
 import {productTypeRoutes} from "./pagesRoutes/productTypeRoutes";
 import {orderRoutes} from "./pagesRoutes/orderRoutes";
+import {avitoRoutes} from "./pagesRoutes/avitoRoutes";
 
 
 export const protectedRoutes: RouteObject[] = [
@@ -30,5 +31,10 @@ export const protectedRoutes: RouteObject[] = [
         path: composeTo(AUTH_ROUTES.PRODUCT_TYPES),
         element: <Outlet />,
         children: productTypeRoutes,
-    }
+    },
+    {
+        path: composeTo(AUTH_ROUTES.AVITO),
+        element: <Outlet/>,
+        children: avitoRoutes,
+    },
 ];

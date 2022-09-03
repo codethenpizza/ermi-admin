@@ -7,6 +7,7 @@ import {rimService, tireService} from "@services/ProductTypeService";
 import {shippingTypeService} from "@services/ShippingTypeService";
 import {getRimFilterKey, isRimFilter} from "@containers/productType/rim/rimFiltersHelper";
 import {getTireFilterKey, isTireFilter} from "@containers/productType/tire/tireFiltersHelper";
+import {productService} from "@services";
 
 export type TableFilterName = 'attr_set_id';
 
@@ -24,6 +25,14 @@ export const useTableFiltersStore = create<TableFiltersSliceState>()(devtools(im
         }
 
         switch (filterName) {
+            case 'cat_id':
+                productService.getCategories().then(x => {
+                    set(state => {
+                        state.filters[filterName] = x.map(item => ({text: item.name, value: item.id}));
+                    })
+                });
+
+                return [];
             case 'attr_set_id':
                 attrSetService.fetchList().then(x => {
                     set(state => {

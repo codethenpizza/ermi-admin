@@ -1,3 +1,5 @@
+import {AvitoAd} from "./avito";
+
 export type ProductVariant<T extends ProductAttr = {}> = {
     id: number;
     uid: string;
@@ -10,6 +12,7 @@ export type ProductVariant<T extends ProductAttr = {}> = {
     offers: Offer[];
     product: Product;
     productVariantImgs: ProductVariantImage[];
+    avitoAd?: AvitoAd;
 }
 
 export type Product = {

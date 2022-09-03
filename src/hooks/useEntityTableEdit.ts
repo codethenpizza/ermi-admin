@@ -78,6 +78,7 @@ export const useEntityTableEdit = <T = any>(params: EntityTableEditParams<T>): E
             const modal = Modal.info({
                 ...addModalParams,
                 content: isValidElement(addModalParams.content) ? cloneElement<AddEntitiesToTableParams>(
+                    // @ts-ignore
                     addModalParams.content,
                     {
                         addItem: (item) => {

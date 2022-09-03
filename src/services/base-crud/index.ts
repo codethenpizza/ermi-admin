@@ -9,7 +9,9 @@ export type BaseCrudServiceParams = {
     client?: AxiosInstance;
 }
 
-export abstract class BaseCrudService<T = any> {
+
+export abstract class BaseCrudService<T = any>  {
+
     protected readonly endpoint: string;
     protected readonly baseOffset: number;
     readonly baseLimit: number;

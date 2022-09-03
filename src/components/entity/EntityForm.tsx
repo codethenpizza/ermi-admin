@@ -50,6 +50,7 @@ export const EntityForm: FC<EntityFormProps> = (params) => {
         }
 
         if (isValidElement(child)) {
+            // @ts-ignore
             return cloneElement(child, {disabled: !isEdit});
         }
 
