@@ -13,9 +13,12 @@ import {useTableFiltersStore} from "../../../store/slices/tableFilters";
 import {composeRootTo} from "@utils";
 import {useNavigate} from "react-router-dom";
 import {getRimFilterName} from "./rimFiltersHelper";
-import {Button, Card, Image, Modal, Space} from "antd";
+import {Button, Card, Image, message, Modal, Space} from "antd";
 import styles from "./RimTable.module.css";
 import {ProductVariantBulkImageCard} from "@containers/productVariantImage/ProductVariantBulkImageCard/ProductVariantBulkImageCard";
+import ButtonGroup from "antd/es/button/button-group";
+import {avitoAdService} from "@services/AvitoService";
+import {useColumnSearchProps} from "@hooks/useColumnSearchProps";
 
 export interface RimTableProps extends CustomTableProps<Rim> {
 }
@@ -43,6 +46,12 @@ export const RimTable: FC<RimTableProps> = (props) => {
             dataIndex: 'product_id',
         },
         {
+            title: 'Avito',
+            dataIndex: 'avito_active',
+            render: (active: boolean) => active ? <CheckCircleOutlined/> : <CloseCircleOutlined/>,
+            filters: [{text: 'Активно', value: true}, {text: 'Не активно', value: false}],
+        },
+        {
             title: 'Изображение',
             dataIndex: 'productVariant',
             render: (productVariant: Rim['productVariant']) => <Image
@@ -59,6 +68,7 @@ export const RimTable: FC<RimTableProps> = (props) => {
         {
             title: 'model',
             dataIndex: 'model',
+            ...useColumnSearchProps(),
         },
         {
             title: 'name',
@@ -127,7 +137,7 @@ export const RimTable: FC<RimTableProps> = (props) => {
 
         const modal = Modal.info({
             title: 'Изменение изображений',
-            content: <ProductVariantBulkImageCard productVariantIds={selectedIds} onSave={handleImagesSave} />,
+            content: <ProductVariantBulkImageCard productVariantIds={selectedIds} onSave={handleImagesSave}/>,
             width: '80%',
             icon: null,
             maskClosable: true,
@@ -135,7 +145,22 @@ export const RimTable: FC<RimTableProps> = (props) => {
         });
     }
 
+    const avitoSetStatus = async (status: boolean) => {
+        try {
+            await avitoAdService.setActive(selectedIds, status);
+            await controlParams.updateList();
+            await message.success('Успешно обновлено!');
+        } catch (e) {
+            console.error('avitoSetStatus error -', e);
+            await message.error('Ошибка!');
+        }
+    }
+
     const actions = <Space>
+        <ButtonGroup>
+            <Button onClick={() => avitoSetStatus(true)}>Авито (включить)</Button>
+            <Button onClick={() => avitoSetStatus(false)}>Авито (выключить)</Button>
+        </ButtonGroup>
         <Button onClick={openImageChooserModal}>Назначить изображения</Button>
     </Space>
 

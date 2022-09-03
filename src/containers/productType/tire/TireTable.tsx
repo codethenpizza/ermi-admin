@@ -43,6 +43,12 @@ export const TireTable: FC<TireTableProps> = (props) => {
             dataIndex: 'product_id',
         },
         {
+            title: 'Avito',
+            dataIndex: ['productVariant', 'avitoAd', 'active'],
+            render: (active: boolean) => active ? <CheckCircleOutlined/> : <CloseCircleOutlined/>,
+            filters: [{text: 'Активно', value: true}, {text: 'Не активно', value: false}],
+        },
+        {
             title: 'Изображение',
             dataIndex: 'productVariant',
             render: (productVariant: Tire['productVariant']) => <Image

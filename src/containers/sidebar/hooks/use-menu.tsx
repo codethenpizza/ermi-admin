@@ -1,5 +1,5 @@
 import {composeTo} from "@utils";
-import {AUTH_ROUTES, PRODUCT_TYPE_ROUTES} from "@types";
+import {AUTH_ROUTES, AVITO_ROUTES, PRODUCT_TYPE_ROUTES} from "@types";
 import {BarcodeOutlined, BarsOutlined, UserOutlined} from "@ant-design/icons";
 import {ItemType} from "antd/lib/menu/hooks/useItems";
 import {useNavigate} from "react-router-dom";
@@ -44,6 +44,25 @@ export const useMenu = (): ItemType[] => {
             label: 'Пользователи',
             onClick: () => navigate(composeTo(AUTH_ROUTES.USERS)),
             icon: <UserOutlined />,
+        },
+        {
+            key: 'Авито',
+            label: 'Авито',
+            icon: <BarsOutlined />,
+            children: [
+                {
+                    key: 'Объявления',
+                    label: 'Объявления',
+                    onClick: () => navigate(composeTo(AUTH_ROUTES.AVITO, AVITO_ROUTES.ADS)),
+                    icon: <BarsOutlined />,
+                },
+                {
+                    key: 'Шаблоны',
+                    label: 'Шаблоны',
+                    onClick: () => navigate(composeTo(AUTH_ROUTES.AVITO, AVITO_ROUTES.TEMPLATES)),
+                    icon: <BarsOutlined />,
+                },
+            ]
         },
     ];
 }

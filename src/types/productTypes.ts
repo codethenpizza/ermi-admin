@@ -17,6 +17,7 @@ export interface Rim {
     pcd: number;
     type: string;
     productVariant: ProductVariant;
+    avito_active: boolean;
 }
 
 export interface Tire {
@@ -34,4 +35,5 @@ export interface Tire {
     runflat: string;
     pin: string;
     productVariant: ProductVariant;
+    avito_active: boolean;
 }

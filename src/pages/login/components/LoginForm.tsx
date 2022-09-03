@@ -3,11 +3,11 @@ import {Form, Input, Button} from "@components";
 import {useAuthStore} from "@store";
 import {LoginRequestParams} from "@types";
 import {useNavigate} from "react-router-dom";
-import {Col, Row} from "antd";
+import {Col, message, Row} from "antd";
 
 const initValues = {
-    email: process.env.REACT_APP_ADMIN_LOGIN || '',
-    password: process.env.REACT_APP_ADMIN_PASSWORD || ''
+    email: '',
+    password: '',
 }
 
 export const LoginForm: FC = () => {
@@ -19,7 +19,7 @@ export const LoginForm: FC = () => {
             await login(value);
             navigate('/', {replace: true});
         } catch (e: any) {
-            // TODO show error modal/notification
+            message.error('Не верный логин или пароль');
             console.error(e);
         }
     }
